@@ -20,7 +20,7 @@ On Mac:
   
 Polish version download -> https://github.com/KrzysztofZawisla/SnowyMonitor/releases/
   
-Author: Krzysztof Zawisła.
+Author: Krzysztof Zawisła.  
 Used NPM's modules:  
   - electron-packager  
   - electron  
