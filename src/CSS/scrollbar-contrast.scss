@@ -1,0 +1,22 @@
+@import "variables.scss";
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: $black-lighten-color;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $contrast-lime;
+}
+
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active {
+  background: $contrast-lime;
+}
+
+::-webkit-scrollbar-corner {
+  background: $black-lighten-color;
+}

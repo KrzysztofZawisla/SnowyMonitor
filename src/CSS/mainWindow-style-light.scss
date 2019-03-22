@@ -1,0 +1,111 @@
+@import "variables.scss";
+
+*, *::after, *::before {
+  box-sizing: border-box;
+  outline: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: $dark-111;
+  background: $white;
+  font-family: $font-family;
+  header {
+    background: #f44336;
+    color: #fff;
+    padding: 2.5px;
+    font-size: 14px;
+    text-align: justify;
+    user-select: none;
+  }
+  main {
+  //  min-height: calc(100vh - 35px);
+    margin-bottom: 35px;
+    .sysInfoDiv {
+      width: 100%;
+      height: auto;
+      .sysInfoTitle {
+        user-select: none;
+        background: $white-darken-color;
+        height: 50px;
+        font-size: 24px;
+        line-height: 35px;
+        padding: 7.5px;
+        .sysInfoTitleText {
+          float: left;
+        }
+        .sysInfoStatue {
+          float: right;
+        }
+        .sysInfoStatue::after {
+          clear: both;
+        }
+      }
+      .sysInfoInformation {
+        display: none;
+        height: auto;
+        .refreshInfo {
+          text-align: center;
+          padding: 7.5px;
+          font-size: 18px;
+          color: $dark-111;
+          background: $primary-color;
+          cursor: pointer;
+          a {
+            color: $dark-111;
+            text-decoration: none;
+          }
+        }
+        .sysInfoOneInfo {
+          padding: 7.5px;
+          font-size: 18px;
+          color: $dark-111;
+          a {
+            color: $primary-color;
+            text-decoration: none;
+            cursor: pointer;
+          }
+        }
+        .batteryExt {
+          display: none;
+        }
+      }
+    }
+  }
+  footer {
+    user-select: none;
+    position: fixed;
+    bottom: 0;
+    height: auto;
+    padding: 2.5px;
+    text-align: right;
+    line-height: 30px;
+    width: 100%;
+    font-size: 9.2px;
+    border-top: solid 1.2px $primary-color;
+    color: $dark-111;
+    background: $white-darken-color;
+    a {
+      color: $dark-111;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    header {
+      font-size: 16px;
+      padding: 5px;
+    }
+    footer {
+      font-size: 12px;
+      padding: 5px;
+      line-height: 25px;
+    }
+  }
+}

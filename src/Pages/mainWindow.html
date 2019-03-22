@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl-PL" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>SystemMonitor - informacje o systemie</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=latin-ext" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../CSS/scrollbar-light.css">
+  <link rel="stylesheet" type="text/css" href="../CSS/mainWindow-style-light.css">
+  <script type="text/javascript" src="../JS/mainWindow-modules.js"></script>
+  <script type="text/javascript" src="../JS/mainWindow-colorTheme.js"></script>
+  <script type="text/javascript" src="../JS/mainWindow-resizer.js"></script>
+</head>
+<body>
+  <header>Uwaga! Niektóre parametry takie jak np.: wolna ilość pamięci RAM należy odświeżyć ręcznie. Ten zabieg ma na celu zwiększenie wiarygodności wyników które mogą być fałszowane prze duże obciążenie systemu podczas zbierania danych całościowych.</header>
+  <main>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje ogólne</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="general">
+        <div class="sysInfoOneInfo">Wersja biblioteki systeminformation: <span id="sysInfoGeneralLibVersion">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Strefa czasowa: <span id="sysInfoGeneralTimezone">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Nazwa strefy czasowej: <span id="sysInfoGeneralTimezoneName">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Producent komputera: <span id="sysInfoSystemManufacturer">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Model komputera: <span id="sysInfoSystemModel">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja modelu komputera: <span id="sysInfoSystemVersion">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Numer seryjny komputera: <span id="sysInfoSystemSerial">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">UUID komputera: <span id="sysInfoSystemUUID">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">SKU komputera: <span id="sysInfoSystemSKU">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Typ komputera: <span id="sysInfoChassistType">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o BIOS'ie</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="bios">
+        <div class="sysInfoOneInfo">Producent BIOS'u: <span id="sysInfoBiosVendor">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja BIOS'u: <span id="sysInfoBiosVersion">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Data wydania BIOS'u: <span id="sysInfoBiosReleaseDate">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Poprawka BIOS'u: <span id="sysInfoBiosRevision">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o płycie głównej</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="motherboard">
+        <div class="sysInfoOneInfo">Producent płyty głównej: <span id="sysInfoMotherboardManufacturer">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Model płyty głównej: <span id="sysInfoMotherboardModel">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja modelu płyty głównej: <span id="sysInfoMotherboardVersion">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Numer seryjny płyty głównej: <span id="sysInfoMotherboardSerial">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Asset Tag płyty głównej: <span id="sysInfoMotherboardAssetTag">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o procesorze</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="cpu">
+        <div class="sysInfoOneInfo">Ilość procesorów: <span id="sysInfoCPUProcessors">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Producent procesora: <span id="sysInfoCPUManufacturer">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Model procesora: <span id="sysInfoCPUBrand">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Prędkość podstawowa procesora: <span id="sysInfoCPUSpeed">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Maksymalna prędkość procesora: <span id="sysInfoCPUMaxSpeed">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Minimalna prędkość procesora: <span id="sysInfoCPUMinSpeed">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość rdzeni procesora: <span id="sysInfoCPUCores">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość wątków procesora: <span id="sysInfoCPUThreads">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Gniazdo procesora: <span id="sysInfoCPUSocket">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Dystrybutor procesora: <span id="sysInfoCPUVendor">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Rodzina procesora: <span id="sysInfoCPUFamily">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Numer modelu procesora: <span id="sysInfoCPUModel">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Stepping procesora: <span id="sysInfoCPUStepping">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Poprawka procesora: <span id="sysInfoCPURevision">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Napięcie na procesorze: <span id="sysInfoCPUVoltage">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość pamięci Cache L3 procesora: <span id="sysInfoCPUCacheL3">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość pamięci Cache L2 procesora: <span id="sysInfoCPUCacheL2">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość pamięci Cache L1 (dane) procesora: <span id="sysInfoCPUCacheL1Data">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość pamięci Cache L1 (instrukcje) procesora: <span id="sysInfoCPUCacheL1Instruction">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Temperatura procesora: <span id="sysInfoCPUTemperature">Zbieranie informacji...</span> <a onclick="refreshCPUTemp()">Odśwież</a></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o pamięci RAM</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="ram">
+        <a onclick="refreshMemoryInformation()"><div class="refreshInfo">Odśwież informację dotyczące pamięci RAM</div></a>
+        <div class="sysInfoOneInfo">Ilość pamięci RAM: <span id="sysInfoMemoryTotal">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość wolnej pamięci RAM: <span id="sysInfoMemoryFree">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość używanej pamięci RAM: <span id="sysInfoMemoryUsed">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość pamięci SWAP: <span id="sysInfoMemorySWAPTotal">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość używanej pamięci SWAP: <span id="sysInfoMemorySWAPUsed">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość wolnej pamięci SWAP: <span id="sysInfoMemorySWAPFree">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o baterii</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="battery">
+        <div class="sysInfoOneInfo">Komputer jest podłączony do zasilania: <span id="sysInfoBatteryPowerConnected">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Komputer posiada baterię: <span id="sysInfoBatteryHasBattery">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Ilość cyklów ładowań baterii: <span id="sysInfoBatteryCycleCount">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Bateria jest aktualnie ładowana: <span id="sysInfoBatteryIsCharging">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Maksymalna pojemność baterii: <span id="sysInfoBatterMaxCapacity">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Aktualny stopień naładowania baterii (mAh): <span id="sysInfoBatteryCurrentCapacity">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Aktualny stopień naładowania baterii (procenty): <span id="sysInfoBatteryPercent">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Pozostały przewidywany czas pracy na baterii: <span id="sysInfoBatteryTimeLeft">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Typ baterii: <span id="sysInfoBatteryType">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Model baterii: <span id="sysInfoBatteryModel">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Producent baterii: <span id="sysInfoBatteryManufacturer">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo batteryExt">Numer seryjny baterii: <span id="sysInfoBatterySerial">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o karcie graficznej</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="graphic">
+        <div class="sysInfoOneInfo">Model karty graficznej: <span id="sysInfoGraphicModel">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Dystrybutor karty graficznej: <span id="sysInfoGraphicVendor">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Szyna karty graficznej: <span id="sysInfoGraphicBus">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Ilość pamięci VRAM karty graficznej: <span id="sysInfoGraphicVRAM">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Karta posiada dynamicznie alokowaną pamięć VRAM: <span id="sysInfoGraphicVRAMDynamic">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o monitorze</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="display">
+        <div class="sysInfoOneInfo">Model monitora: <span id="sysInfoDisplayModel">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Monitor jest wbudowany w komputer: <span id="sysInfoDisplayBuiltIn">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Monitor jest podłączony poprzez port: <span id="sysInfoDisplayConnection">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Rozdzielczość monitora (szerokość): <span id="sysInfoDisplayResolutionX">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Rozdzielczość monitora (wysokość): <span id="sysInfoDisplayResolutionY">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Głębia kolorów: <span id="sysInfoDisplayColorDepth">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o systemie operacyjnym</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="os">
+        <div class="sysInfoOneInfo">System operacyjny: <span id="sysInfoOSDistro">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Architektura systemu operacyjny: <span id="sysInfoOSArch">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Nazwa komputera: <span id="sysInfoOSHostname">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Build systemu operacyjnego: <span id="sysInfoOSBuild">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Numer seryjny systemu operacyjnego: <span id="sysInfoOSSerial">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wydanie systemu operacyjnego: <span id="sysInfoOSRelease">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o oprogramowaniu</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="versions">
+        <div class="sysInfoOneInfo">Wersja NodeJS'a: <span id="sysInfoVersionNodeJS">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja V8: <span id="sysInfoVersionV8">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja Perl'a: <span id="sysInfoVersionPerl">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja Docker'a: <span id="sysInfoVersionDocker">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja Javy: <span id="sysInfoVersionJava">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja Python'a: <span id="sysInfoVersionPython">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+  </main>
+  <footer><span>Aplikacja stworzona przez: <a href="#" onclick="authorGithubLink()">Krzysztof Zawisła</a> na licencji <a href="#" onclick="mitLicenseLink()">MIT</a> z wykorzystaniem modułu <a href="#" onclick="systeminformationModuleLink()">systeminformation</a>.</span></footer>
+  <script type="text/javascript" src="../JS/mainWindow-systemInfo.js"></script>
+  <script type="text/javascript" src="../JS/mainWindow-footer.js"></script>
+</body>
+</html>
