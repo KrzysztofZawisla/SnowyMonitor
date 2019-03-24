@@ -334,7 +334,7 @@ function ramInformationCollect(e) {
         memorySlotDiv.className = "sysInfoOneInfo";
         memoryVoltageDiv.className = "sysInfoOneInfo";
         memoryBankDiv.className = "sysInfoOneInfo";
-        slotInfoDiv.innerHTML = "Informacje o "+iToFix+" module pamięci";
+        slotInfoDiv.innerHTML = "Informacje o module pamięci nr. "+iToFix;
         memoryClockSpeedDiv.innerHTML = "Prędkość modułu pamięci RAM: "+memoryClockSpeedValue;
         memoryManufacturerDiv.innerHTML = "Producent modułu pamięci RAM: "+memoryManufacturerValue;
         memoryTypeDiv.innerHTML = "Typ modułu pamięci RAM: "+memoryTypeValue;
@@ -415,7 +415,8 @@ function graphicInformationCollect() {
       systemInfoSpans.graphicVendor.style.color = "#0071c5"
     }
     systemInfoSpans.graphicBus.innerHTML = data.controllers[0].bus != "" ? data.controllers[0].bus : "Nieoczekiwany błąd";
-    systemInfoSpans.graphicVRAM.innerHTML = data.controllers[0].vram != "" ? data.controllers[0].vram/1024+" GB" : "Nieoczekiwany błąd";
+    let graphicVRAMToFix = data.controllers[0].vram/1024
+    systemInfoSpans.graphicVRAM.innerHTML = data.controllers[0].vram != "" ? graphicVRAMToFix.toFixed(3)+" GB" : "Nieoczekiwany błąd";
     let dynamicVRAM;
     if(data.controllers[0].vramDynamic == true) {
       dynamicVRAM = "tak"
@@ -441,7 +442,7 @@ function displayInformationCollect() {
     systemInfoSpans.displayConnection.innerHTML = data.displays[0].connection != "" ? data.displays[0].connection : "Nieoczekiwany błąd";
     systemInfoSpans.displayResolutionX.innerHTML = data.displays[0].resolutionx != "" ? data.displays[0].resolutionx+" pikseli" : "Nieoczekiwany błąd";
     systemInfoSpans.displayResolutionY.innerHTML = data.displays[0].resolutiony != "" ? data.displays[0].resolutiony+" pikseli" : "Nieoczekiwany błąd";
-    systemInfoSpans.displayColorDepth.innerHTML = data.displays[0].pixeldepth != "" ? data.displays[0].pixeldepth+" bitowa" : "Nieoczekiwany błąd";
+    systemInfoSpans.displayColorDepth.innerHTML = data.displays[0].pixeldepth != ("" || undefined) ? data.displays[0].pixeldepth+" bitowa" : "Nieoczekiwany błąd";
   });
 }
 
