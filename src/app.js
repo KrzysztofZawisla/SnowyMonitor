@@ -233,9 +233,9 @@ app.on("ready", () => {
   menuBuild();
   colorThemeDb();
   //Dev console shortcut
-  /*globalShortcut.register("CommandOrControl+I", () => {
+  globalShortcut.register("CommandOrControl+I", () => {
     windows.mainWindow.webContents.openDevTools();
-  });*/
+  });
   windows.mainWindow = new BrowserWindow({
     title: "SnowyMonitor - informacje o systemie",
     show: false,

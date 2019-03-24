@@ -62,6 +62,7 @@ const systemInfoSpans = {
   cpuCacheL1Data: document.getElementById("sysInfoCPUCacheL1Data"),
   cpuCacheL1Intruction: document.getElementById("sysInfoCPUCacheL1Instruction"),
   cpuTemperature: document.getElementById("sysInfoCPUTemperature"),
+  cpuLoad: document.getElementById("sysInfoCPULoad"),
   memoryTotal: document.getElementById("sysInfoMemoryTotal"),
   memoryFree: document.getElementById("sysInfoMemoryFree"),
   memoryUsed: document.getElementById("sysInfoMemoryUsed"),
@@ -134,6 +135,7 @@ function sysInfoClicked(e) {
       states.cpuSectionState = true;
       cpuInformationCollect();
       refreshCPUTemp();
+      refreshCPUUsage();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "ram") {
     if(states.ramSectionState === false) {
@@ -195,6 +197,14 @@ function refreshCPUTemp() {
   si.cpuTemperature().then((data) => {
     systemInfoSpans.cpuTemperature.innerHTML = data.main != "" ? data.main+" °C" : "Nieoczekiwany błąd";
     setTimeout(refreshCPUTemp, 1000);
+  });
+}
+
+function refreshCPUUsage() {
+  si.currentLoad().then((data) => {
+    let cpuLoadToFixed = data.currentload;
+    systemInfoSpans.cpuLoad.innerHTML = data.currentload !== "" ? cpuLoadToFixed.toFixed(1)+" %" : "Nieoczekiwany błąd";
+    setTimeout(refreshCPUUsage, 1000);
   });
 }
 
@@ -267,6 +277,10 @@ function cpuInformationCollect() {
   });
   si.cpuTemperature().then((data) => {
     systemInfoSpans.cpuTemperature.innerHTML = data.main != "" ? data.main+" °C" : "Nieoczekiwany błąd";
+  });
+  si.currentLoad().then((data) => {
+    let cpuLoadToFixed = data.currentload;
+    systemInfoSpans.cpuLoad.innerHTML = data.currentload !== "" ? cpuLoadToFixed.toFixed(1)+" %" : "Nieoczekiwany błąd";
   });
 }
 
@@ -495,7 +509,7 @@ function networkInformationCollect(e) {
           networkTypeToFix = "bezprzewodowa";
         }
         let networkTypeValue = data[i].type !== "" ? networkTypeToFix : "Nieoczekiwany błąd";
-        let networkSpeedValue = data[i].speed != "" ? data[i].speed+" Mb/s" : "Nieoczekiwany błąd";
+        let networkSpeedValue = data[i].speed != ("" || "-1") ? data[i].speed/1000/1000+" Mb/s" : "Nieoczekiwany błąd";
         slotInfoDiv.className = "sysInfoSlotInfo";
         networkInterfaceDiv.className = "sysInfoOneInfo";
         networkInterfaceNameDiv.className = "sysInfoOneInfo";
@@ -541,7 +555,13 @@ function disksInformationCollect(e) {
         let diskSerialDiv = document.createElement("div");
         let diskSizeDiv = document.createElement("div");
         let diskSMARTStatusDiv = document.createElement("div");
-        let diskTypeValue = data[i].type != "" ? data[i].type : "Nieoczekiwany błąd";
+        let diskTypeToFixed;
+        if(data[i].type == "HD") {
+          diskTypeToFixed = "HDD";
+        } else {
+          diskTypeToFixed = data[i].type;
+        }
+        let diskTypeValue = data[i].type != "" ? diskTypeToFixed : "Nieoczekiwany błąd";
         let diskNameValue = data[i].name != "" ? data[i].name : "Nieoczekiwany błąd";
         let diskInterfaceValue = data[i].interfaceType != "" ? data[i].interfaceType : "Nieoczekiwany błąd";
         let diskSerialValue = data[i].serialNum != "" ? data[i].serialNum : "Nieoczekiwany błąd";
