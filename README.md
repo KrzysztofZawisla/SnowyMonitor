@@ -28,5 +28,3 @@ Used NPM's modules:
   - update-electron-app  
   - nedb
   - systeminformation
-
-I will upload code here after some small improves.
