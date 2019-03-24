@@ -30,6 +30,8 @@
         <div class="sysInfoOneInfo">UUID komputera: <span id="sysInfoSystemUUID">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">SKU komputera: <span id="sysInfoSystemSKU">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Typ komputera: <span id="sysInfoChassistType">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Katalog domowy: <span id="sysInfoSystemHomedir">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Katalog z plikami tymczasowymi: <span id="sysInfoSystemTmpDir">Zbieranie informacji...</span></div>
       </div>
     </div>
     <div class="sysInfoDiv">
@@ -82,7 +84,7 @@
         <div class="sysInfoOneInfo">Ilość pamięci Cache L2 procesora: <span id="sysInfoCPUCacheL2">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Ilość pamięci Cache L1 (dane) procesora: <span id="sysInfoCPUCacheL1Data">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Ilość pamięci Cache L1 (instrukcje) procesora: <span id="sysInfoCPUCacheL1Instruction">Zbieranie informacji...</span></div>
-        <div class="sysInfoOneInfo">Temperatura procesora: <span id="sysInfoCPUTemperature">Zbieranie informacji...</span> <a onclick="refreshCPUTemp()">Odśwież</a></div>
+        <div class="sysInfoOneInfo">Temperatura procesora: <span id="sysInfoCPUTemperature">Zbieranie informacji...</span></div>
       </div>
     </div>
     <div class="sysInfoDiv">
@@ -91,7 +93,6 @@
         <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
       </div>
       <div class="sysInfoInformation" id="ram">
-        <a onclick="refreshMemoryInformation()"><div class="refreshInfo">Odśwież informację dotyczące pamięci RAM</div></a>
         <div class="sysInfoOneInfo">Ilość pamięci RAM: <span id="sysInfoMemoryTotal">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Ilość wolnej pamięci RAM: <span id="sysInfoMemoryFree">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Ilość używanej pamięci RAM: <span id="sysInfoMemoryUsed">Zbieranie informacji...</span></div>
@@ -159,6 +160,9 @@
         <div class="sysInfoOneInfo">Build systemu operacyjnego: <span id="sysInfoOSBuild">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Numer seryjny systemu operacyjnego: <span id="sysInfoOSSerial">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Wydanie systemu operacyjnego: <span id="sysInfoOSRelease">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Strona kodowa systemu operacyjnego: <span id="sysInfoOSCodePage">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Nazwa kodowa systemu operacyjnego: <span id="sysInfoOSCodeName">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">UUID systemu operacyjnego: <span id="sysInfoOSUUID">Zbieranie informacji...</span></div>
       </div>
     </div>
     <div class="sysInfoDiv">
@@ -173,6 +177,25 @@
         <div class="sysInfoOneInfo">Wersja Docker'a: <span id="sysInfoVersionDocker">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Wersja Javy: <span id="sysInfoVersionJava">Zbieranie informacji...</span></div>
         <div class="sysInfoOneInfo">Wersja Python'a: <span id="sysInfoVersionPython">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja Git'a: <span id="sysInfoVersionGit">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja Yarn'a: <span id="sysInfoVersionYarn">Zbieranie informacji...</span></div>
+        <div class="sysInfoOneInfo">Wersja TypeScript'u: <span id="sysInfoTypeScript">Zbieranie informacji...</span></div>
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o sieci</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="network">
+      </div>
+    </div>
+    <div class="sysInfoDiv">
+      <div class="sysInfoTitle">
+        <span class="sysInfoTitleText">Informacje o dyskach twardych</span>
+        <span class="sysInfoStatue"><i class="fas fa-plus"></i></span>
+      </div>
+      <div class="sysInfoInformation" id="disks">
       </div>
     </div>
   </main>

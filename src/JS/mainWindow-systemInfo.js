@@ -15,7 +15,9 @@ const states = {
   graphicSectionState: false,
   displaySectionState: false,
   osSectionState: false,
-  versionsSectionState: false
+  versionsSectionState: false,
+  networkSectionState: false,
+  disksSectionState: false
 };
 
 const systemInfoSpans = {
@@ -28,6 +30,8 @@ const systemInfoSpans = {
   systemSerial: document.getElementById("sysInfoSystemSerial"),
   systemUUID: document.getElementById("sysInfoSystemUUID"),
   systemSKU: document.getElementById("sysInfoSystemSKU"),
+  systemHomedir: document.getElementById("sysInfoSystemHomedir"),
+  systemTmpDir: document.getElementById("sysInfoSystemTmpDir"),
   chassistType: document.getElementById("sysInfoChassistType"),
   biosVendor: document.getElementById("sysInfoBiosVendor"),
   biosVersion: document.getElementById("sysInfoBiosVersion"),
@@ -93,12 +97,18 @@ const systemInfoSpans = {
   osBuild: document.getElementById("sysInfoOSBuild"),
   osSerial: document.getElementById("sysInfoOSSerial"),
   osRelease: document.getElementById("sysInfoOSRelease"),
+  osCodePage: document.getElementById("sysInfoOSCodePage"),
+  osCodeName: document.getElementById("sysInfoOSCodeName"),
+  osUUID: document.getElementById("sysInfoOSUUID"),
   versionNodeJS: document.getElementById("sysInfoVersionNodeJS"),
   versionV8: document.getElementById("sysInfoVersionV8"),
   versionPerl: document.getElementById("sysInfoVersionPerl"),
   versionDocker: document.getElementById("sysInfoVersionDocker"),
   versionJava: document.getElementById("sysInfoVersionJava"),
-  versionPython: document.getElementById("sysInfoVersionPython")
+  versionPython: document.getElementById("sysInfoVersionPython"),
+  versionGit: document.getElementById("sysInfoVersionGit"),
+  versionYarn: document.getElementById("sysInfoVersionYarn"),
+  versionTypeScript: document.getElementById("sysInfoTypeScript")
 };
 
 function sysInfoClicked(e) {
@@ -123,11 +133,13 @@ function sysInfoClicked(e) {
     if(states.cpuSectionState === false) {
       states.cpuSectionState = true;
       cpuInformationCollect();
+      refreshCPUTemp();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "ram") {
     if(states.ramSectionState === false) {
       states.ramSectionState = true;
-      ramInformationCollect();
+      ramInformationCollect(e);
+      refreshMemoryInformation();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "battery") {
     if(states.batterySectionState === false) {
@@ -154,6 +166,16 @@ function sysInfoClicked(e) {
       states.versionsSectionState = true;
       versionsInformationCollect();
     }
+  } else if(e.currentTarget.parentElement.children[1].id == "network") {
+    if(states.networkSectionState === false) {
+      states.networkSectionState = true;
+      networkInformationCollect(e);
+    }
+  } else if(e.currentTarget.parentElement.children[1].id == "disks") {
+    if(states.disksSectionState === false) {
+      states.disksSectionState = true;
+      disksInformationCollect(e);
+    }
   }
 }
 
@@ -161,20 +183,18 @@ function refreshMemoryInformation() {
   si.mem().then((data) => {
     let memoryFree = data.free/1024/1024/1024;
     systemInfoSpans.memoryFree.innerHTML = data.free != "" ? memoryFree.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memoryUsed = data.used/1024/1024/1024;
     systemInfoSpans.memoryUsed.innerHTML = data.used != "" ? memoryUsed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memorySWAPFree = data.swapfree/1024/1024/1024;
     systemInfoSpans.memorySWAPFree.innerHTML = data.swapfree != "" ? memorySWAPFree.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+    setTimeout(refreshMemoryInformation, 1000);
   });
 }
 
 function refreshCPUTemp() {
   si.cpuTemperature().then((data) => {
     systemInfoSpans.cpuTemperature.innerHTML = data.main != "" ? data.main+" °C" : "Nieoczekiwany błąd";
+    setTimeout(refreshCPUTemp, 1000);
   });
 }
 
@@ -184,38 +204,24 @@ function generalInformationCollect() {
   systemInfoSpans.timezoneName.innerHTML = si.time().timezoneName != "" ? si.time().timezoneName : "Nieoczekiwany błąd";
   si.system().then((data) => {
     systemInfoSpans.systemManufacturer.innerHTML = data.manufacturer != "" ? data.manufacturer : "Nieoczekiwany błąd";
-  });
-  si.system().then((data) => {
     systemInfoSpans.systemModel.innerHTML = data.model != "" ? data.model : "Nieoczekiwany błąd";
-  });
-  si.system().then((data) => {
     systemInfoSpans.systemVersion.innerHTML = data.version != "" ? data.version : "Nieoczekiwany błąd";
-  });
-  si.system().then((data) => {
     systemInfoSpans.systemSerial.innerHTML = data.serial != "" ? data.serial : "Nieoczekiwany błąd";
-  });
-  si.system().then((data) => {
     systemInfoSpans.systemUUID.innerHTML = data.uuid != "" ? data.uuid : "Nieoczekiwany błąd";
-  });
-  si.system().then((data) => {
     systemInfoSpans.systemSKU.innerHTML = data.sku != "" ? data.sku : "Nieoczekiwany błąd";
   });
   si.chassis().then((data) => {
     systemInfoSpans.chassistType.innerHTML = data.type != "" ? data.type : "Nieoczekiwany błąd";
   });
+  systemInfoSpans.systemHomedir.innerHTML = os.homedir() != "" ? os.homedir() : "Nieoczekiwany błąd";
+  systemInfoSpans.systemTmpDir.innerHTML = os.tmpdir() != "" ? os.tmpdir() : "Nieoczekiwany błąd";
 }
 
 function biosInformationCollect() {
   si.bios().then((data) => {
     systemInfoSpans.biosVendor.innerHTML = data.vendor != "" ? data.vendor : "Nieoczekiwany błąd";
-  });
-  si.bios().then((data) => {
     systemInfoSpans.biosVersion.innerHTML = data.version != "" ? data.version : "Nieoczekiwany błąd";
-  });
-  si.bios().then((data) => {
     systemInfoSpans.biosReleaseDate.innerHTML = data.releaseDate != "" ? data.releaseDate : "Nieoczekiwany błąd";
-  });
-  si.bios().then((data) => {
     systemInfoSpans.biosRevision.innerHTML = data.revision != "" ? data.revision : "Nieoczekiwany błąd";
   });
 }
@@ -223,17 +229,9 @@ function biosInformationCollect() {
 function motherboardInformationCollect() {
   si.baseboard().then((data) => {
     systemInfoSpans.motherboardManufacturer.innerHTML = data.manufacturer != "" ? data.manufacturer : "Nieoczekiwany błąd";
-  });
-  si.baseboard().then((data) => {
     systemInfoSpans.motherboardModel.innerHTML = data.model != "" ? data.model : "Nieoczekiwany błąd";
-  });
-  si.baseboard().then((data) => {
     systemInfoSpans.motherboardVersion.innerHTML = data.version != "" ? data.version : "Nieoczekiwany błąd";
-  });
-  si.baseboard().then((data) => {
     systemInfoSpans.motherboardSerial.innerHTML = data.serial != "" ? data.serial : "Nieoczekiwany błąd";
-  });
-  si.baseboard().then((data) => {
     systemInfoSpans.motherboardAssetTag.innerHTML = data.assetTag != "" ? data.assetTag : "Nieoczekiwany błąd";
   });
 }
@@ -241,8 +239,6 @@ function motherboardInformationCollect() {
 function cpuInformationCollect() {
   si.cpu().then((data) => {
     systemInfoSpans.cpuProcessors.innerHTML = data.processors != "" ? data.processors : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuManufacturer.innerHTML = data.manufacturer != "" ? data.manufacturer : "Nieoczekiwany błąd";
     if(data.manufacturer == "Intel®") {
       systemInfoSpans.cpuManufacturer.style.color = "#0071c5";
@@ -251,56 +247,22 @@ function cpuInformationCollect() {
       systemInfoSpans.cpuManufacturer.style.color = "#ed1c24";
       systemInfoSpans.cpuBrand.style.color = "#ed1c24";
     }
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuBrand.innerHTML = data.brand != "" ? data.brand : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuSpeed.innerHTML = data.speed != "" ? data.speed+" GHz" : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuMaxSpeed.innerHTML = data.speedmax != "" ? data.speedmax+" GHz" : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuMinSpeed.innerHTML = data.speedmin != "" ? data.speedmin+" GHz" : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuCores.innerHTML = data.physicalCores != "" ? data.physicalCores : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuThreads.innerHTML = data.cores != "" ? data.cores : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuSocket.innerHTML = data.socket != "" ? data.socket : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuVendor.innerHTML = data.vendor != "" ? data.vendor : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuFamily.innerHTML = data.family != "" ? data.family : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuModel.innerHTML = data.model != "" ? data.model : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuStepping.innerHTML = data.stepping != "" ? data.stepping : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuRevision.innerHTML = data.revision != "" ? data.revision : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuVoltage.innerHTML = data.voltage != "" ? data.voltage : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuCacheL3.innerHTML = data.cache.l3 != "" ? data.cache.l3/1024/1024+" MB" : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuCacheL2.innerHTML = data.cache.l2 != "" ? data.cache.l2/1024/1024+" MB" : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuCacheL1Data.innerHTML = data.cache.l1d != "" ? data.cache.l1d/1024+" KB" : "Nieoczekiwany błąd";
-  });
-  si.cpu().then((data) => {
     systemInfoSpans.cpuCacheL1Intruction.innerHTML = data.cache.l1i != "" ? data.cache.l1i/1024+" KB" : "Nieoczekiwany błąd";
   });
   si.cpuTemperature().then((data) => {
@@ -308,91 +270,118 @@ function cpuInformationCollect() {
   });
 }
 
-function ramInformationCollect() {
+function ramInformationCollect(e) {
   si.mem().then((data) => {
     let memoryTotal = data.total/1024/1024/1024;
-    systemInfoSpans.memoryTotal.innerHTML = data.total != "" ? memoryTotal.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memoryFree = data.free/1024/1024/1024;
-    systemInfoSpans.memoryFree.innerHTML = data.free != "" ? memoryFree.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memoryUsed = data.used/1024/1024/1024;
-    systemInfoSpans.memoryUsed.innerHTML = data.used != "" ? memoryUsed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memorySWAPTotal = data.swaptotal/1024/1024/1024;
-    systemInfoSpans.memorySWAPTotal.innerHTML = data.swaptotal != "" ? memorySWAPTotal.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memorySWAPUsed = data.swapused/1024/1024/1024;
-    systemInfoSpans.memorySWAPUsed.innerHTML = data.swapused != "" ? memorySWAPUsed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
-  });
-  si.mem().then((data) => {
     let memorySWAPFree = data.swapfree/1024/1024/1024;
+    systemInfoSpans.memoryTotal.innerHTML = data.total != "" ? memoryTotal.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+    systemInfoSpans.memoryFree.innerHTML = data.free != "" ? memoryFree.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+    systemInfoSpans.memoryUsed.innerHTML = data.used != "" ? memoryUsed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+    systemInfoSpans.memorySWAPTotal.innerHTML = data.swaptotal != "" ? memorySWAPTotal.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+    systemInfoSpans.memorySWAPUsed.innerHTML = data.swapused != "" ? memorySWAPUsed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
     systemInfoSpans.memorySWAPFree.innerHTML = data.swapfree != "" ? memorySWAPFree.toFixed(3)+" GB" : "Nieoczekiwany błąd";
   });
+  let argumentE = e.currentTarget;
+  si.memLayout().then((data) => {
+    if(data.length != 0) {
+      for(let i = 0; i<data.length; i++) {
+        let iToFix = i+1;
+        let slotInfoDiv = document.createElement("div");
+        let memoryClockSpeedDiv = document.createElement("div");
+        let memoryManufacturerDiv = document.createElement("div");
+        let memoryTypeDiv = document.createElement("div");
+        let memorySizeDiv = document.createElement("div");
+        let memorySerialDiv = document.createElement("div");
+        let memoryPartNumDiv = document.createElement("div");
+        let memorySlotDiv = document.createElement("div");
+        let memoryVoltageDiv = document.createElement("div");
+        let memoryBankDiv = document.createElement("div");
+        let memoryClockSpeedValue = data[i].clockSpeed != "" ? data[i].clockSpeed+" MHz" : "Nieoczekiwany błąd";
+        let memoryManufacturerValue = data[i].manufacturer != "" ? data[i].manufacturer : "Nieoczekiwany błąd";
+        let memoryTypeValue = data[i].type != "" ? data[i].type : "Nieoczekiwany błąd";
+        let memorySizeToFixed = data[i].size/1024/1024/1024;
+        let memorySizeValue = data[i].size != "" ? memorySizeToFixed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+        let memorySerialValue = data[i].serialNum != "" ? data[i].serialNum : "Nieoczekiwany błąd";
+        let memoryPartNumValue = data[i].partNum != "" ? data[i].partNum : "Nieoczekiwany błąd";
+        let memorySlotValue = data[i].formFactor != "" ? data[i].formFactor : "Nieoczekiwany błąd";
+        let memoryVoltageValue = data[i].voltageConfigured != "" ? data[i].voltageConfigured : "Nieoczekiwany błąd";
+        let memoryBankValue = data[i].bank != "" ? data[i].bank : "Nieoczekiwany błąd";
+        slotInfoDiv.className = "sysInfoSlotInfo";
+        memoryClockSpeedDiv.className = "sysInfoOneInfo";
+        memoryManufacturerDiv.className = "sysInfoOneInfo";
+        memoryTypeDiv.className = "sysInfoOneInfo";
+        memorySizeDiv.className = "sysInfoOneInfo";
+        memorySerialDiv.className = "sysInfoOneInfo";
+        memoryPartNumDiv.className = "sysInfoOneInfo";
+        memorySlotDiv.className = "sysInfoOneInfo";
+        memoryVoltageDiv.className = "sysInfoOneInfo";
+        memoryBankDiv.className = "sysInfoOneInfo";
+        slotInfoDiv.innerHTML = "Informacje o "+iToFix+" module pamięci";
+        memoryClockSpeedDiv.innerHTML = "Prędkość modułu pamięci RAM: "+memoryClockSpeedValue;
+        memoryManufacturerDiv.innerHTML = "Producent modułu pamięci RAM: "+memoryManufacturerValue;
+        memoryTypeDiv.innerHTML = "Typ modułu pamięci RAM: "+memoryTypeValue;
+        memorySizeDiv.innerHTML = "Pojemność modułu pamięci RAM: "+memorySizeValue;
+        memorySerialDiv.innerHTML = "Numer seryjny modułu pamięci RAM: "+memorySerialValue;
+        memoryPartNumDiv.innerHTML = "Numer części modułu pamięci RAM: "+memoryPartNumValue;
+        memorySlotDiv.innerHTML = "Slot modułu pamięci RAM: "+memorySlotValue;
+        memoryVoltageDiv.innerHTML = "Napięcie modułu pamięci RAM: "+memoryVoltageValue;
+        memoryBankDiv.innerHTML = "Bank modułu pamięci RAM: "+memoryBankValue;
+        argumentE.parentElement.children[1].appendChild(slotInfoDiv);
+        argumentE.parentElement.children[1].appendChild(memoryClockSpeedDiv);
+        argumentE.parentElement.children[1].appendChild(memoryManufacturerDiv);
+        argumentE.parentElement.children[1].appendChild(memoryTypeDiv);
+        argumentE.parentElement.children[1].appendChild(memorySizeDiv);
+        argumentE.parentElement.children[1].appendChild(memorySerialDiv);
+        argumentE.parentElement.children[1].appendChild(memoryPartNumDiv);
+        argumentE.parentElement.children[1].appendChild(memorySlotDiv);
+        argumentE.parentElement.children[1].appendChild(memoryVoltageDiv);
+        argumentE.parentElement.children[1].appendChild(memoryBankDiv);
+      }
+    }
+  })
+
 }
 
 function batteryInformationCollect() {
-  let computerHaveBattery;
   si.battery().then((data) => {
     let powerResourceConnected;
+    let computerHaveBattery;
     if(data.acconnected == true) {
       powerResourceConnected = "tak";
     } else {
       powerResourceConnected = "nie";
     }
-    systemInfoSpans.batteryPowerConnected.innerHTML = data.acconnected !== "" ? powerResourceConnected : "Nieoczekiwany błąd";
-  });
-  si.battery().then((data) => {
     if(data.battery === true) {
       computerHaveBattery = "tak";
     } else {
       computerHaveBattery = "nie";
     }
+    systemInfoSpans.batteryPowerConnected.innerHTML = data.acconnected !== "" ? powerResourceConnected : "Nieoczekiwany błąd";
     systemInfoSpans.batteryHasBattery.innerHTML = data.hasbattery !== "" ? computerHaveBattery : "Nieoczekiwany błąd";
     if(computerHaveBattery == "tak") {
       batteryExt.forEach((batteryExtDiv) => {
         batteryExtDiv.style.display = "block";
       });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryCycleCount.innerHTML = data.cyclecount !== "" ? data.cyclecount : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        let batteryIsCharging;
-        if(data.ischarging == true) {
-          batteryIsCharging = "tak";
-        } else {
-          batteryIsCharging = "nie";
-        }
-        systemInfoSpans.batteryIsCharging.innerHTML = data.ischarging !== "" ? batteryIsCharging : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryMaxCapacity.innerHTML = data.maxcapacity !== "" ? data.maxcapacity+" mAh" : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryCurrentCapacity.innerHTML = data.currentcapacity !== "" ? data.currentcapacity+" mAh" : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryPercent.innerHTML = data.percent !== "" ? data.percent+"%" : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryTimeLeft.innerHTML = data.timeremaining !== "" ? data.timeremaining+" minut" : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryType.innerHTML = data.type != "" ? data.type : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryModel.innerHTML = data.model != "" ? data.model : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batteryManufacturer.innerHTML = data.manufacturer != "" ? data.manufacturer : "Nieoczekiwany błąd";
-      });
-      si.battery().then((data) => {
-        systemInfoSpans.batterySerial.innerHTML = data.serial != "" ? data.serial : "Nieoczekiwany błąd";
-      });
+      let batteryIsCharging;
+      if(data.ischarging == true) {
+        batteryIsCharging = "tak";
+      } else {
+        batteryIsCharging = "nie";
+      }
+      systemInfoSpans.batteryCycleCount.innerHTML = data.cyclecount !== "" ? data.cyclecount : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryIsCharging.innerHTML = data.ischarging !== "" ? batteryIsCharging : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryMaxCapacity.innerHTML = data.maxcapacity !== "" ? data.maxcapacity+" mAh" : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryCurrentCapacity.innerHTML = data.currentcapacity !== "" ? data.currentcapacity+" mAh" : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryPercent.innerHTML = data.percent !== "" ? data.percent+"%" : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryTimeLeft.innerHTML = data.timeremaining !== "" ? data.timeremaining+" minut" : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryType.innerHTML = data.type != "" ? data.type : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryModel.innerHTML = data.model != "" ? data.model : "Nieoczekiwany błąd";
+      systemInfoSpans.batteryManufacturer.innerHTML = data.manufacturer != "" ? data.manufacturer : "Nieoczekiwany błąd";
+      systemInfoSpans.batterySerial.innerHTML = data.serial != "" ? data.serial : "Nieoczekiwany błąd";
     }
   });
 }
@@ -400,8 +389,6 @@ function batteryInformationCollect() {
 function graphicInformationCollect() {
   si.graphics().then((data) => {
     systemInfoSpans.graphicModel.innerHTML = data.controllers[0].model != "" ? data.controllers[0].model : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.graphicVendor.innerHTML = data.controllers[0].vendor != "" ? data.controllers[0].vendor : "Nieoczekiwany błąd";
     if(data.controllers[0].vendor == "NVIDIA") {
       systemInfoSpans.graphicModel.style.color = "#76b900"
@@ -413,14 +400,8 @@ function graphicInformationCollect() {
       systemInfoSpans.graphicModel.style.color = "#0071c5"
       systemInfoSpans.graphicVendor.style.color = "#0071c5"
     }
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.graphicBus.innerHTML = data.controllers[0].bus != "" ? data.controllers[0].bus : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.graphicVRAM.innerHTML = data.controllers[0].vram != "" ? data.controllers[0].vram/1024+" GB" : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     let dynamicVRAM;
     if(data.controllers[0].vramDynamic == true) {
       dynamicVRAM = "tak"
@@ -436,8 +417,6 @@ function displayInformationCollect() {
     let displayModel = data.displays[0].model;
     let displayModelFix = displayModel.replace("�", "ó");
     systemInfoSpans.displayModel.innerHTML = data.displays[0].model != "" ? displayModelFix : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     let builtIn;
     if(data.displays[0].builtin == true) {
       builtIn = "tak";
@@ -445,17 +424,9 @@ function displayInformationCollect() {
       builtIn = "nie";
     }
     systemInfoSpans.displayBuiltIn.innerHTML = data.displays[0].builtin !== "" ? builtIn : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.displayConnection.innerHTML = data.displays[0].connection != "" ? data.displays[0].connection : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.displayResolutionX.innerHTML = data.displays[0].resolutionx != "" ? data.displays[0].resolutionx+" pikseli" : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.displayResolutionY.innerHTML = data.displays[0].resolutiony != "" ? data.displays[0].resolutiony+" pikseli" : "Nieoczekiwany błąd";
-  });
-  si.graphics().then((data) => {
     systemInfoSpans.displayColorDepth.innerHTML = data.displays[0].pixeldepth != "" ? data.displays[0].pixeldepth+" bitowa" : "Nieoczekiwany błąd";
   });
 }
@@ -463,41 +434,142 @@ function displayInformationCollect() {
 function osInformationCollect() {
   si.osInfo().then((data) => {
     systemInfoSpans.osDistro.innerHTML = data.distro != "" ? data.distro : "Nieoczekiwany błąd";
-  });
-  si.osInfo().then((data) => {
     systemInfoSpans.osArch.innerHTML = data.arch != "" ? data.arch : "Nieoczekiwany błąd";
-  });
-  si.osInfo().then((data) => {
     systemInfoSpans.osHostname.innerHTML = data.hostname != "" ? data.hostname : "Nieoczekiwany błąd";
-  });
-  si.osInfo().then((data) => {
     systemInfoSpans.osBuild.innerHTML = data.build != "" ? data.build : "Nieoczekiwany błąd";
-  });
-  si.osInfo().then((data) => {
     systemInfoSpans.osSerial.innerHTML = data.serial != "" ? data.serial : "Nieoczekiwany błąd";
-  });
-  si.osInfo().then((data) => {
     systemInfoSpans.osRelease.innerHTML = data.release != "" ? data.release : "Nieoczekiwany błąd";
+    systemInfoSpans.osCodePage.innerHTML = data.codepage != "" ? data.codepage : "Nieoczekiwany błąd";
+    systemInfoSpans.osCodeName.innerHTML = data.codename != "" ? data.codename : "Nieoczekiwany błąd";
+  });
+  si.uuid().then((data) => {
+    systemInfoSpans.osUUID.innerHTML = data.os != "" ? data.os : "Nieoczekiwany błąd";
   });
 }
 
 function versionsInformationCollect() {
   si.versions().then((data) => {
     systemInfoSpans.versionNodeJS.innerHTML = data.node != "" ? data.node : "Nieoczekiwany błąd";
-  });
-  si.versions().then((data) => {
     systemInfoSpans.versionV8.innerHTML = data.v8 != "" ? data.v8 : "Nieoczekiwany błąd";
-  });
-  si.versions().then((data) => {
     systemInfoSpans.versionPerl.innerHTML = data.perl != "" ? data.perl : "Nieoczekiwany błąd";
-  });
-  si.versions().then((data) => {
     systemInfoSpans.versionDocker.innerHTML = data.docker != "" ? data.docker : "Nieoczekiwany błąd";
-  });
-  si.versions().then((data) => {
     systemInfoSpans.versionJava.innerHTML = data.java != "" ? data.java : "Nieoczekiwany błąd";
-  });
-  si.versions().then((data) => {
     systemInfoSpans.versionPython.innerHTML = data.python != "" ? data.python : "Nieoczekiwany błąd";
+    systemInfoSpans.versionGit.innerHTML = data.git != "" ? data.git : "Nieoczekiwany błąd";
+    systemInfoSpans.versionYarn.innerHTML = data.yarn != "" ? data.yarn : "Nieoczekiwany błąd";
+    systemInfoSpans.versionTypeScript.innerHTML = data.tsc != "" ? data.tsc : "Nieoczekiwany błąd";
+  });
+}
+
+function networkInformationCollect(e) {
+  let argumentE = e.currentTarget;
+  si.networkInterfaces().then((data) => {
+    if(data.length != 0) {
+      for(let i = 0; i<data.length; i++) {
+        let iToFix = i+1;
+        let slotInfoDiv = document.createElement("div");
+        let networkInterfaceDiv = document.createElement("div");
+        let networkInterfaceNameDiv = document.createElement("div");
+        let networkIPv4Div = document.createElement("div");
+        let networkIPv6Div = document.createElement("div");
+        let networkMacDiv = document.createElement("div");
+        let networkInternalDiv = document.createElement("div");
+        let networkTypeDiv = document.createElement("div");
+        let networkSpeedDiv = document.createElement("div");
+        let networkInterfaceValue = data[i].iface != "" ? data[i].iface : "Nieoczekiwany błąd";
+        let networkInterfaceNameValue = data[i].ifaceName != "" ? data[i].ifaceName : "Nieoczekiwany błąd";
+        let networkIPv4Value = data[i].ip4 != "" ? data[i].ip4 : "Nieoczekiwany błąd";
+        let networkIPv6Value = data[i].ip6 != "" ? data[i].ip6 : "Nieoczekiwany błąd";
+        let networkMacValue = data[i].mac != "" ? data[i].mac : "Nieoczekiwany błąd";
+        let networkInternalToFix;
+        if(data[i].internal === true) {
+          networkInternalToFix = "tak";
+        } else {
+          networkInternalToFix = "nie";
+        }
+        let networkInternalValue = data[i].internal !== "" ? networkInternalToFix : "Nieoczekiwany błąd";
+        let networkTypeToFix;
+        if(data[i].type == "wired") {
+          networkTypeToFix = "przewodowa";
+        } else {
+          networkTypeToFix = "bezprzewodowa";
+        }
+        let networkTypeValue = data[i].type !== "" ? networkTypeToFix : "Nieoczekiwany błąd";
+        let networkSpeedValue = data[i].speed != "" ? data[i].speed+" Mb/s" : "Nieoczekiwany błąd";
+        slotInfoDiv.className = "sysInfoSlotInfo";
+        networkInterfaceDiv.className = "sysInfoOneInfo";
+        networkInterfaceNameDiv.className = "sysInfoOneInfo";
+        networkIPv4Div.className = "sysInfoOneInfo";
+        networkIPv6Div.className = "sysInfoOneInfo";
+        networkMacDiv.className = "sysInfoOneInfo";
+        networkInternalDiv.className = "sysInfoOneInfo";
+        networkTypeDiv.className = "sysInfoOneInfo";
+        networkSpeedDiv.className = "sysInfoOneInfo";
+        slotInfoDiv.innerHTML = "Informacje o karcie sieciowej nr. "+iToFix;
+        networkInterfaceDiv.innerHTML = "Interfejs karty sieciowej: "+networkInterfaceValue;
+        networkInterfaceNameDiv.innerHTML = "Nazwa karty sieciowej w systemie: "+networkInterfaceNameValue;
+        networkIPv4Div.innerHTML = "Adres IPv4 karty sieciowej: "+networkIPv4Value;
+        networkIPv6Div.innerHTML = "Adres IPv6 karty sieciowej: "+networkIPv6Value;
+        networkMacDiv.innerHTML = "Adres MAC karty sieciowej: "+networkMacValue;
+        networkInternalDiv.innerHTML = "Karta obsługuje sieć lokalną: "+networkInternalValue;
+        networkTypeDiv.innerHTML = "Typ karty sieciowej: "+networkTypeValue;
+        networkSpeedDiv.innerHTML = "Prędkość karty sieciowej: "+networkSpeedValue;
+        argumentE.parentElement.children[1].appendChild(slotInfoDiv);
+        argumentE.parentElement.children[1].appendChild(networkInterfaceDiv);
+        argumentE.parentElement.children[1].appendChild(networkInterfaceNameDiv);
+        argumentE.parentElement.children[1].appendChild(networkIPv4Div);
+        argumentE.parentElement.children[1].appendChild(networkIPv6Div);
+        argumentE.parentElement.children[1].appendChild(networkMacDiv);
+        argumentE.parentElement.children[1].appendChild(networkInternalDiv);
+        argumentE.parentElement.children[1].appendChild(networkTypeDiv);
+        argumentE.parentElement.children[1].appendChild(networkSpeedDiv);
+      }
+    }
+  });
+}
+
+function disksInformationCollect(e) {
+  let argumentE = e.currentTarget;
+  si.diskLayout().then((data) => {
+    if(data.length != 0) {
+      for(let i = 0; i<data.length; i++) {
+        let iToFix = i+1;
+        let slotInfoDiv = document.createElement("div");
+        let diskTypeDiv = document.createElement("div");
+        let diskNameDiv = document.createElement("div");
+        let diskInterfaceDiv = document.createElement("div");
+        let diskSerialDiv = document.createElement("div");
+        let diskSizeDiv = document.createElement("div");
+        let diskSMARTStatusDiv = document.createElement("div");
+        let diskTypeValue = data[i].type != "" ? data[i].type : "Nieoczekiwany błąd";
+        let diskNameValue = data[i].name != "" ? data[i].name : "Nieoczekiwany błąd";
+        let diskInterfaceValue = data[i].interfaceType != "" ? data[i].interfaceType : "Nieoczekiwany błąd";
+        let diskSerialValue = data[i].serialNum != "" ? data[i].serialNum : "Nieoczekiwany błąd";
+        let diskSizeToFixed = data[i].size/1024/1024/1024;
+        let diskSizeValue = data[i].size != "" ? diskSizeToFixed.toFixed(3)+" GB" : "Nieoczekiwany błąd";
+        let diskSMARTStatusValue = data[i].smartStatus != "" ? data[i].smartStatus : "Nieoczekiwany błąd";
+        slotInfoDiv.className = "sysInfoSlotInfo";
+        diskTypeDiv.className = "sysInfoOneInfo";
+        diskNameDiv.className = "sysInfoOneInfo";
+        diskInterfaceDiv.className = "sysInfoOneInfo";
+        diskSerialDiv.className = "sysInfoOneInfo";
+        diskSizeDiv.className = "sysInfoOneInfo";
+        diskSMARTStatusDiv.className = "sysInfoOneInfo";
+        slotInfoDiv.innerHTML = "Informacje o dysku nr. "+iToFix;
+        diskTypeDiv.innerHTML = "Typ dysku: "+diskTypeValue;
+        diskNameDiv.innerHTML = "Model dysku: "+diskNameValue;
+        diskInterfaceDiv.innerHTML = "Interfejs dysku: "+diskInterfaceValue;
+        diskSerialDiv.innerHTML = "Numer seryjny dysku: "+diskSerialValue;
+        diskSizeDiv.innerHTML = "Pojemność dysku: "+diskSizeValue;
+        diskSMARTStatusDiv.innerHTML = "Status S.M.A.R.T. dysku: "+diskSMARTStatusValue;
+        argumentE.parentElement.children[1].appendChild(slotInfoDiv);
+        argumentE.parentElement.children[1].appendChild(diskTypeDiv);
+        argumentE.parentElement.children[1].appendChild(diskNameDiv);
+        argumentE.parentElement.children[1].appendChild(diskInterfaceDiv);
+        argumentE.parentElement.children[1].appendChild(diskSerialDiv);
+        argumentE.parentElement.children[1].appendChild(diskSizeDiv);
+        argumentE.parentElement.children[1].appendChild(diskSMARTStatusDiv);
+      }
+    }
   });
 }

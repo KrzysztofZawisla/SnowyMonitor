@@ -1,4 +1,5 @@
 const electron = require("electron");
+const os = require("os");
 const si = require("systeminformation");
 const log = require("electron-log");
 const Datastore = require("nedb");

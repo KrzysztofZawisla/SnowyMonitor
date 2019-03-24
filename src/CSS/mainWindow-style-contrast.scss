@@ -18,6 +18,7 @@ body {
     padding: 2.5px;
     font-size: 14px;
     text-align: justify;
+    display: $header-alert-display;
     user-select: none;
   }
   main {
@@ -46,18 +47,6 @@ body {
       .sysInfoInformation {
         display: none;
         height: auto;
-        .refreshInfo {
-          text-align: center;
-          padding: 7.5px;
-          font-size: 18px;
-          color: $dark-111;
-          background: $contrast-lime;
-          cursor: pointer;
-          a {
-            color: $contrast-lime;
-            text-decoration: none;
-          }
-        }
         .sysInfoOneInfo {
           padding: 7.5px;
           font-size: 18px;
@@ -67,6 +56,11 @@ body {
             text-decoration: none;
             cursor: pointer;
           }
+        }
+        .sysInfoSlotInfo {
+          padding: 7.5px;
+          font-size: 18px;
+          color: $white;
         }
         .batteryExt {
           display: none;
