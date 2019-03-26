@@ -21,6 +21,7 @@ On Mac:
 ## Command line arguments
 To change color theme:
   -snowymonitor.exe light/dark/contrast
+  -
   
   
 # Download, Used Modules, Author and other informations
