@@ -25,6 +25,5 @@ Used NPM's modules:
   - electron-packager  
   - electron  
   - electron-log  
-  - update-electron-app  
   - nedb
   - systeminformation
