@@ -4,7 +4,7 @@ const si = require("systeminformation");
 const log = require("electron-log");
 const Datastore = require("nedb");
 
-const { ipcRenderer, shell } = electron;
+const { ipcRenderer, shell, remote } = electron;
 
 const db = new Datastore({
   filename: "LocalDb/globalDb.db",

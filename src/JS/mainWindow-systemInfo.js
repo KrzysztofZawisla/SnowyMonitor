@@ -304,6 +304,7 @@ function ramInformationCollect(e) {
     if(data.length != 0) {
       for(let i = 0; i<data.length; i++) {
         let iToFix = i+1;
+        let memoryDocumentFragment = document.createDocumentFragment();
         let slotInfoDiv = document.createElement("div");
         let memoryClockSpeedDiv = document.createElement("div");
         let memoryManufacturerDiv = document.createElement("div");
@@ -344,20 +345,20 @@ function ramInformationCollect(e) {
         memorySlotDiv.innerHTML = "Slot modułu pamięci RAM: "+memorySlotValue;
         memoryVoltageDiv.innerHTML = "Napięcie modułu pamięci RAM: "+memoryVoltageValue;
         memoryBankDiv.innerHTML = "Bank modułu pamięci RAM: "+memoryBankValue;
-        argumentE.parentElement.children[1].appendChild(slotInfoDiv);
-        argumentE.parentElement.children[1].appendChild(memoryClockSpeedDiv);
-        argumentE.parentElement.children[1].appendChild(memoryManufacturerDiv);
-        argumentE.parentElement.children[1].appendChild(memoryTypeDiv);
-        argumentE.parentElement.children[1].appendChild(memorySizeDiv);
-        argumentE.parentElement.children[1].appendChild(memorySerialDiv);
-        argumentE.parentElement.children[1].appendChild(memoryPartNumDiv);
-        argumentE.parentElement.children[1].appendChild(memorySlotDiv);
-        argumentE.parentElement.children[1].appendChild(memoryVoltageDiv);
-        argumentE.parentElement.children[1].appendChild(memoryBankDiv);
+        memoryDocumentFragment.appendChild(slotInfoDiv);
+        memoryDocumentFragment.appendChild(memoryClockSpeedDiv);
+        memoryDocumentFragment.appendChild(memoryManufacturerDiv);
+        memoryDocumentFragment.appendChild(memoryTypeDiv);
+        memoryDocumentFragment.appendChild(memorySizeDiv);
+        memoryDocumentFragment.appendChild(memorySerialDiv);
+        memoryDocumentFragment.appendChild(memoryPartNumDiv);
+        memoryDocumentFragment.appendChild(memorySlotDiv);
+        memoryDocumentFragment.appendChild(memoryVoltageDiv);
+        memoryDocumentFragment.appendChild(memoryBankDiv);
+        argumentE.parentElement.children[1].appendChild(memoryDocumentFragment);
       }
     }
-  })
-
+  });
 }
 
 function batteryInformationCollect() {
@@ -369,7 +370,7 @@ function batteryInformationCollect() {
     } else {
       powerResourceConnected = "nie";
     }
-    if(data.battery === true) {
+    if(data.hasbattery === true) {
       computerHaveBattery = "tak";
     } else {
       computerHaveBattery = "nie";
@@ -482,6 +483,7 @@ function networkInformationCollect(e) {
     if(data.length != 0) {
       for(let i = 0; i<data.length; i++) {
         let iToFix = i+1;
+        let networkDocumentFragment = document.createDocumentFragment();
         let slotInfoDiv = document.createElement("div");
         let networkInterfaceDiv = document.createElement("div");
         let networkInterfaceNameDiv = document.createElement("div");
@@ -529,15 +531,16 @@ function networkInformationCollect(e) {
         networkInternalDiv.innerHTML = "Karta obsługuje sieć lokalną: "+networkInternalValue;
         networkTypeDiv.innerHTML = "Typ karty sieciowej: "+networkTypeValue;
         networkSpeedDiv.innerHTML = "Prędkość karty sieciowej: "+networkSpeedValue;
-        argumentE.parentElement.children[1].appendChild(slotInfoDiv);
-        argumentE.parentElement.children[1].appendChild(networkInterfaceDiv);
-        argumentE.parentElement.children[1].appendChild(networkInterfaceNameDiv);
-        argumentE.parentElement.children[1].appendChild(networkIPv4Div);
-        argumentE.parentElement.children[1].appendChild(networkIPv6Div);
-        argumentE.parentElement.children[1].appendChild(networkMacDiv);
-        argumentE.parentElement.children[1].appendChild(networkInternalDiv);
-        argumentE.parentElement.children[1].appendChild(networkTypeDiv);
-        argumentE.parentElement.children[1].appendChild(networkSpeedDiv);
+        networkDocumentFragment.appendChild(slotInfoDiv);
+        networkDocumentFragment.appendChild(networkInterfaceDiv);
+        networkDocumentFragment.appendChild(networkInterfaceNameDiv);
+        networkDocumentFragment.appendChild(networkIPv4Div);
+        networkDocumentFragment.appendChild(networkIPv6Div);
+        networkDocumentFragment.appendChild(networkMacDiv);
+        networkDocumentFragment.appendChild(networkInternalDiv);
+        networkDocumentFragment.appendChild(networkTypeDiv);
+        networkDocumentFragment.appendChild(networkSpeedDiv);
+        argumentE.parentElement.children[1].appendChild(networkDocumentFragment);
       }
     }
   });
@@ -549,6 +552,7 @@ function disksInformationCollect(e) {
     if(data.length != 0) {
       for(let i = 0; i<data.length; i++) {
         let iToFix = i+1;
+        let diskDocumentFragment = document.createDocumentFragment();
         let slotInfoDiv = document.createElement("div");
         let diskTypeDiv = document.createElement("div");
         let diskNameDiv = document.createElement("div");
@@ -583,13 +587,14 @@ function disksInformationCollect(e) {
         diskSerialDiv.innerHTML = "Numer seryjny dysku: "+diskSerialValue;
         diskSizeDiv.innerHTML = "Pojemność dysku: "+diskSizeValue;
         diskSMARTStatusDiv.innerHTML = "Status S.M.A.R.T. dysku: "+diskSMARTStatusValue;
-        argumentE.parentElement.children[1].appendChild(slotInfoDiv);
-        argumentE.parentElement.children[1].appendChild(diskTypeDiv);
-        argumentE.parentElement.children[1].appendChild(diskNameDiv);
-        argumentE.parentElement.children[1].appendChild(diskInterfaceDiv);
-        argumentE.parentElement.children[1].appendChild(diskSerialDiv);
-        argumentE.parentElement.children[1].appendChild(diskSizeDiv);
-        argumentE.parentElement.children[1].appendChild(diskSMARTStatusDiv);
+        diskDocumentFragment.appendChild(slotInfoDiv);
+        diskDocumentFragment.appendChild(diskTypeDiv);
+        diskDocumentFragment.appendChild(diskNameDiv);
+        diskDocumentFragment.appendChild(diskInterfaceDiv);
+        diskDocumentFragment.appendChild(diskSerialDiv);
+        diskDocumentFragment.appendChild(diskSizeDiv);
+        diskDocumentFragment.appendChild(diskSMARTStatusDiv);
+        argumentE.parentElement.children[1].appendChild(diskDocumentFragment);
       }
     }
   });

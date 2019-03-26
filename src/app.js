@@ -1,17 +1,11 @@
-//Importy i biblioteki
 const electron = require("electron");
 const url = require("url");
 const path = require("path");
 const Datastore = require("nedb");
 const log = require("electron-log");
-const update = require("update-electron-app")({
-  repo: "KrzysztofZawisla/SnowyMonitor",
-  updateInterval: "1 hour"
-});
 
 const { app, BrowserWindow, Menu, shell, globalShortcut } = electron;
 
-//Zmienne
 const appProperty = {
   mainWindowSizeWidth: 600,
   mainWindowSizeHeight: 400,
@@ -157,8 +151,6 @@ const appMenuTemplate = [
             protocol: 'file:',
             slashes: true
           }));
-          //To debug
-          //windows.versionWindow.webContents.openDevTools()
           windows.versionWindow.on("ready-to-show", () => {
             windows.versionWindow.show();
           });
@@ -178,7 +170,6 @@ const appMenuTemplate = [
   }
 ];
 
-//Funkcje
 function menuBuild() {
   const appMenu = Menu.buildFromTemplate(appMenuTemplate);
   Menu.setApplicationMenu(appMenu);
@@ -221,7 +212,6 @@ function colorThemeDb() {
   });
 }
 
-//Czynnośći kiedy aplikacja jest gotowa
 app.on("ready", () => {
   db.find({ name: "mainWindowSize" }, (err, docs) => {
     if(docs != "") {
