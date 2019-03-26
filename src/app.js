@@ -208,11 +208,13 @@ function colorThemeDb() {
   db.find({ name: "colorTheme" }, (err, docs) => {
     if(docs == "") {
       db.insert(colorTheme);
+      log.info("Nastąpiło ustawienie podstawowego motywu kolorystycznego (jasny)");
     }
   });
 }
 
 app.on("ready", () => {
+  log.info("Aplikacja jest gotowa do uruchomienia");
   db.find({ name: "mainWindowSize" }, (err, docs) => {
     if(docs != "") {
       appProperty.mainWindowSizeWidth = docs[0].width;
@@ -221,6 +223,7 @@ app.on("ready", () => {
     }
   });
   menuBuild();
+  log.info("Zbudowano menu aplikacji");
   colorThemeDb();
   //Dev console shortcut
   globalShortcut.register("CommandOrControl+I", () => {
@@ -232,6 +235,7 @@ app.on("ready", () => {
     minHeight: 600,
     minWidth: 500
   });
+  log.info("Zbudowano główne okno aplikacji");
   mainWindowSizeDb();
   windows.mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'Pages/mainWindow.html'),
@@ -244,9 +248,11 @@ app.on("ready", () => {
     } else {
       windows.mainWindow.webContents.send("resize-mainWindow", appProperty.mainWindowSizeWidth, appProperty.mainWindowSizeHeight);
     }
+    log.info("Aplikacja już działa");
     windows.mainWindow.show();
   });
   windows.mainWindow.on("closed", () => {
+    log.info("Aplikacja została zamknięta");
     app.quit();
   });
 });

@@ -5,20 +5,7 @@ sysInfoAll.forEach((sysInfo) => {
   sysInfo.children[0].addEventListener("click", sysInfoClicked);
 });
 
-const states = {
-  generalSectionState: false,
-  biosSectionState: false,
-  motherboardSectionState: false,
-  cpuSectionState: false,
-  ramSectionState: false,
-  batterySectionState: false,
-  graphicSectionState: false,
-  displaySectionState: false,
-  osSectionState: false,
-  versionsSectionState: false,
-  networkSectionState: false,
-  disksSectionState: false
-};
+const states = {};
 
 const systemInfoSpans = {
   libVersion: document.getElementById("sysInfoGeneralLibVersion"),
@@ -113,68 +100,81 @@ const systemInfoSpans = {
 };
 
 function sysInfoClicked(e) {
+  log.info("Nastąpiło rozwinięcie zakładki");
   e.currentTarget.parentElement.children[1].style.display = e.currentTarget.parentElement.children[1].style.display == "block" ? "none" : "block";
   e.currentTarget.children[1].innerHTML = e.currentTarget.children[1].innerHTML == '<i class="fas fa-plus"></i>' ? '<i class="fas fa-minus"></i>' : '<i class="fas fa-plus"></i>';
   if(e.currentTarget.parentElement.children[1].id == "general") {
-    if(states.generalSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej informacji ogólnych");
+    if(!states.generalSectionState) {
       states.generalSectionState = true;
       generalInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "bios") {
-    if(states.biosSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej biosu");
+    if(!states.biosSectionState) {
       states.biosSectionState = true;
       biosInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "motherboard") {
-    if(states.motherboardSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej płyty głównej");
+    if(!states.motherboardSectionState) {
       states.motherboardSectionState = true;
       motherboardInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "cpu") {
-    if(states.cpuSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej procesora");
+    if(!states.cpuSectionState) {
       states.cpuSectionState = true;
       cpuInformationCollect();
       refreshCPUTemp();
       refreshCPUUsage();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "ram") {
-    if(states.ramSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej pamięci RAM");
+    if(!states.ramSectionState) {
       states.ramSectionState = true;
       ramInformationCollect(e);
       refreshMemoryInformation();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "battery") {
-    if(states.batterySectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej baterii");
+    if(!states.batterySectionState) {
       states.batterySectionState = true;
       batteryInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "graphic") {
-    if(states.graphicSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej karty graficznej");
+    if(!states.graphicSectionState) {
       states.graphicSectionState = true;
       graphicInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "display") {
-    if(states.displaySectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej monitora");
+    if(!states.displaySectionState) {
       states.displaySectionState = true;
       displayInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "os") {
-    if(states.osSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej systemu operacyjnego");
+    if(!states.osSectionState) {
       states.osSectionState = true;
       osInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "versions") {
-    if(states.versionsSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej wersji aplikacji");
+    if(!states.versionsSectionState) {
       states.versionsSectionState = true;
       versionsInformationCollect();
     }
   } else if(e.currentTarget.parentElement.children[1].id == "network") {
-    if(states.networkSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej sieci");
+    if(!states.networkSectionState) {
       states.networkSectionState = true;
       networkInformationCollect(e);
     }
   } else if(e.currentTarget.parentElement.children[1].id == "disks") {
-    if(states.disksSectionState === false) {
+    log.info("Nastąpiło wybranie opcji dotyczącej dysków");
+    if(!states.disksSectionState) {
       states.disksSectionState = true;
       disksInformationCollect(e);
     }
