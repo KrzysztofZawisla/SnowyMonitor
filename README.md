@@ -18,6 +18,10 @@ On Mac:
   - Command+M - Minimize
   - F11 - Fullscreen
   
+## Command line arguments
+To change color theme:
+  -snowymonitor.exe light/dark/contrast
+
 Polish version download -> https://github.com/KrzysztofZawisla/SnowyMonitor/releases/
   
 Author: Krzysztof Zawisła.  
