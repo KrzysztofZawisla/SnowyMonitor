@@ -408,7 +408,7 @@ function graphicInformationCollect() {
     if(data.controllers[0].vendor == "NVIDIA") {
       systemInfoSpans.graphicModel.style.color = "#76b900"
       systemInfoSpans.graphicVendor.style.color = "#76b900"
-    } else if (data.controllers[0].vendor == "AMD") {
+    } else if (data.controllers[0].vendor == ("Advanced Micro Devices, Inc." || "AMD")) {
       systemInfoSpans.graphicModel.style.color = "#ed1c24"
       systemInfoSpans.graphicVendor.style.color = "#ed1c24"
     } else if (data.controllers[0].vendor == "Intel Corporation") {
