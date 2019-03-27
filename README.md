@@ -21,7 +21,7 @@ On Mac:
 ## Command line arguments
 To change color theme: snowymonitor.exe light/dark/contrast
 
-## App screens
+## App screenshots
 Light theme:
   ![Light theme](https://github.com/KrzysztofZawisla/SnowyMonitor/blob/master/img/appLight1.png)
   ![Light theme](https://github.com/KrzysztofZawisla/SnowyMonitor/blob/master/img/appLight2.png)
