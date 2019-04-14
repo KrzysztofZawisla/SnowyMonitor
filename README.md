@@ -39,7 +39,7 @@ Contrast theme:
 Polish version download -> https://github.com/KrzysztofZawisla/SnowyMonitor/releases/
   
 Author: Krzysztof Zawisła.  
-Used NPM's modules:  
+Used NPM modules:  
   - electron-packager  
   - electron  
   - electron-log  
